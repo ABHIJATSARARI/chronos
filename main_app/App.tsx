@@ -5,7 +5,8 @@ import { DiaryModal } from './components/DiaryModal';
 import { SplashScreen } from './components/SplashScreen';
 import { InteractiveTour } from './components/InteractiveTour';
 import { UserInput, SimulationData, TimelineEvent } from './types';
-import { generateMockSimulation, checkMockHealth, saveMockToRaindrop } from './services/mockAPI';
+import { generateSimulationAPI, checkBackendHealth } from './services/api';
+import { saveTimelineToRaindrop } from './services/raindrop';
 
 type Theme = 'cyberpunk' | 'minimalist';
 
@@ -25,7 +26,7 @@ const App: React.FC = () => {
 
   // Check backend health on mount
   useEffect(() => {
-    checkMockHealth().then(setBackendHealthy);
+    checkBackendHealth().then(setBackendHealthy);
   }, []);
 
   // Handle splash screen completion
@@ -72,8 +73,8 @@ const App: React.FC = () => {
     setSimulationData(null);
 
     try {
-      // 1. Generate Timeline via Mock API (Demo Mode)
-      const data = await generateMockSimulation(input);
+      // 1. Generate Timeline via Backend API or Direct Gemini
+      const data = await generateSimulationAPI(input);
       setSimulationData(data);
     } catch (err) {
       setError("Divergence Engine Failed. Timeline collapsed. Please try again.");
@@ -85,7 +86,7 @@ const App: React.FC = () => {
   const handleSaveUniverse = () => {
     if (!simulationData) return;
     setRaindropStatus("Syncing with Raindrop SmartMemory...");
-    saveMockToRaindrop().then((session) => {
+    saveTimelineToRaindrop("user-123", simulationData).then((session) => {
       setRaindropStatus(`Saved to Universe Memory: ${session.key}`);
     }).catch(err => {
       console.error("Raindrop Error", err);

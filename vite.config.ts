@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     return {
-      base: process.env.GITHUB_ACTIONS ? '/chronos/' : '/',
+      base: '/',  // Demo runs at root of GitHub Pages
       server: {
         port: 3000,
         host: '0.0.0.0',

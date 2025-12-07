@@ -5,9 +5,9 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     return {
-      base: '/',  // Demo runs at root of GitHub Pages
+      base: '/',  // Main app runs locally or on custom domain
       server: {
-        port: 3000,
+        port: 3001,  // Different port than demo
         host: '0.0.0.0',
       },
       plugins: [react()],
