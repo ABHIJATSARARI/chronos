@@ -66,25 +66,7 @@ npm install && npm run dev
 
 ---
 
-## 📸 Screenshots
 
-<div align="center">
-
-### 🎨 Cyberpunk Theme
-<img src="https://via.placeholder.com/800x450/0a0a0a/8b5cf6?text=Cyberpunk+Mode+Screenshot" alt="Cyberpunk Theme" width="100%"/>
-
-### 🎨 Minimalist Theme  
-<img src="https://via.placeholder.com/800x450/18181b/60a5fa?text=Minimalist+Mode+Screenshot" alt="Minimalist Theme" width="100%"/>
-
-### 📊 Multiverse Graph
-<img src="https://via.placeholder.com/800x450/0a0a0a/a78bfa?text=Timeline+Visualization" alt="Timeline Graph" width="100%"/>
-
-### 📝 Diary Entry Modal
-<img src="https://via.placeholder.com/800x450/0a0a0a/f87171?text=AI+Diary+Entry" alt="Diary Modal" width="100%"/>
-
-</div>
-
----
 
 ## 🏗️ Architecture
 
