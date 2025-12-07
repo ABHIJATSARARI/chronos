@@ -5,7 +5,7 @@ import { UserInput, SimulationData } from "../types";
 const getApiKey = (runtimeKey?: string): string => {
   const apiKey = runtimeKey || process.env.API_KEY || process.env.GEMINI_API_KEY;
   
-  if (!apiKey || apiKey === 'undefined' || apiKey === 'null' || apiKey === 'GEMINI_API_KEY') {
+  if (!apiKey || apiKey === 'undefined' || apiKey === 'null' || apiKey === 'GEMINI_API_KEY' || apiKey === '') {
     throw new Error('Gemini API Key not configured. Please provide your API key.');
   }
   

@@ -15,7 +15,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
         className="w-full h-full object-cover"
         onEnded={onComplete}
       >
-        <source src="/logo.mp4" type="video/mp4" />
+        <source src={`${import.meta.env.BASE_URL}logo.mp4`} type="video/mp4" />
       </video>
     </div>
   );

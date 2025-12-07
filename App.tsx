@@ -141,7 +141,7 @@ const App: React.FC = () => {
       {/* Fixed Logo in Top Left Corner */}
       <div className="fixed top-6 left-6 z-50 group">
         <img 
-          src="/logo.png" 
+          src={`${import.meta.env.BASE_URL}logo.png`}
           alt="Chronos Logo" 
           className={`w-14 h-14 md:w-16 md:h-16 transition-all duration-500 ${
             theme === 'cyberpunk' 
