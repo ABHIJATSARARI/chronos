@@ -15,8 +15,8 @@
 
 ### 🎬 Watch Demo
 
-https://github.com/user-attachments/assets/your-demo-video-id
-
+[https://github.com/user-attachments/assets/your-demo-video-id
+](https://youtu.be/nDYOoXwPEFc)
 *A probabilistic multiverse simulator powered by AI that visualizes divergent life paths in real-time*
 
 </div>
