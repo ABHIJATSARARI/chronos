@@ -1,0 +1,75 @@
+name: Deploy Production to GitHub Pages
+
+on:
+  workflow_dispatch:  # Manual trigger only for production
+    inputs:
+      backend_url:
+        description: 'Backend URL (e.g., http://123.456.789.012)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages-production"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create production environment file
+        run: |
+          echo "VITE_BACKEND_URL=${{ inputs.backend_url }}" > .env.local
+          echo "VITE_USE_BACKEND=true" >> .env.local
+          echo "VITE_GEMINI_API_KEY=not_used_in_production" >> .env.local
+
+      - name: Build production project
+        run: npm run build
+
+      - name: Add production notice banner
+        run: |
+          cat > dist/prod-notice.html << 'EOF'
+          <div style="position: fixed; top: 0; left: 0; right: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 10px; text-align: center; z-index: 9999; font-family: 'Inter', sans-serif; box-shadow: 0 4px 6px rgba(0,0,0,0.3); font-size: 14px;">
+            <strong>⚡ LIVE PRODUCTION</strong> • Powered by Real AI • 
+            <a href="https://github.com/ABHIJATSARARI/chronos" target="_blank" style="color: #ffd700; text-decoration: underline; font-weight: bold;">View Source Code</a>
+          </div>
+          <div style="height: 44px;"></div>
+          EOF
+          
+          # Inject banner after <body> tag
+          sed -i '/<body>/r dist/prod-notice.html' dist/index.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
