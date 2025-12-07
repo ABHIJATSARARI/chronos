@@ -5,7 +5,8 @@ import { DiaryModal } from './components/DiaryModal';
 import { SplashScreen } from './components/SplashScreen';
 import { InteractiveTour } from './components/InteractiveTour';
 import { UserInput, SimulationData, TimelineEvent } from './types';
-import { generateMockSimulation, checkMockHealth, saveMockToRaindrop } from './services/mockAPI';
+import { generateSimulationAPI, checkBackendHealth } from './services/api';
+import { saveTimelineToRaindrop } from './services/raindrop';
 
 type Theme = 'cyberpunk' | 'minimalist';
 
@@ -23,9 +24,12 @@ const App: React.FC = () => {
   // State to control the fade transition
   const [isTransitioning, setIsTransitioning] = useState(false);
 
+  // Check if backend is enabled
+  const USE_BACKEND = import.meta.env.VITE_USE_BACKEND === 'true';
+
   // Check backend health on mount
   useEffect(() => {
-    checkMockHealth().then(setBackendHealthy);
+    checkBackendHealth().then(setBackendHealthy);
   }, []);
 
   // Handle splash screen completion
@@ -65,18 +69,19 @@ const App: React.FC = () => {
     }, 300);
   };
 
-  const handleSimulationStart = async (input: UserInput) => {
+  const handleSimulationStart = async (input: UserInput, geminiApiKey?: string) => {
     setLoading(true);
     setError(null);
     setRaindropStatus(null);
     setSimulationData(null);
 
     try {
-      // 1. Generate Timeline via Mock API (Demo Mode)
-      const data = await generateMockSimulation(input);
+      // 1. Generate Timeline via Backend API or Direct Gemini
+      const data = await generateSimulationAPI(input, geminiApiKey);
       setSimulationData(data);
     } catch (err) {
-      setError("Divergence Engine Failed. Timeline collapsed. Please try again.");
+      console.error('Simulation error:', err);
+      setError(err instanceof Error ? err.message : "Divergence Engine Failed. Timeline collapsed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -85,7 +90,7 @@ const App: React.FC = () => {
   const handleSaveUniverse = () => {
     if (!simulationData) return;
     setRaindropStatus("Syncing with Raindrop SmartMemory...");
-    saveMockToRaindrop().then((session) => {
+    saveTimelineToRaindrop("user-123", simulationData).then((session) => {
       setRaindropStatus(`Saved to Universe Memory: ${session.key}`);
     }).catch(err => {
       console.error("Raindrop Error", err);
@@ -249,7 +254,7 @@ const App: React.FC = () => {
           {/* Input Phase */}
           {!loading && !simulationData && (
             <div className="animate-fade-in-up" id="input-form">
-              <TerminalInput onSubmit={handleSimulationStart} isSimulating={loading} theme={theme} />
+              <TerminalInput onSubmit={handleSimulationStart} isSimulating={loading} theme={theme} requiresApiKey={!USE_BACKEND} />
             </div>
           )}
 
@@ -284,16 +289,18 @@ const App: React.FC = () => {
                   )}
                 </div>
                 <div className="flex gap-3" id="save-button">
-                  <button 
-                    onClick={handleSaveUniverse}
-                    className={`text-xs uppercase tracking-widest px-5 py-3 transition-all border-2 rounded-lg font-bold flex items-center gap-2 group
-                      ${theme === 'cyberpunk'
-                        ? 'text-green-400 hover:text-green-300 border-green-900 hover:border-green-500 hover:bg-green-500/10 hover:shadow-[0_0_15px_rgba(16,185,129,0.3)]'
-                        : 'text-zinc-300 hover:text-white border-zinc-800 hover:border-zinc-600 hover:bg-zinc-900'}`}
-                  >
-                    <span className="text-lg group-hover:scale-110 transition-transform">💾</span>
-                    Save Universe
-                  </button>
+                  {USE_BACKEND && (
+                    <button 
+                      onClick={handleSaveUniverse}
+                      className={`text-xs uppercase tracking-widest px-5 py-3 transition-all border-2 rounded-lg font-bold flex items-center gap-2 group
+                        ${theme === 'cyberpunk'
+                          ? 'text-green-400 hover:text-green-300 border-green-900 hover:border-green-500 hover:bg-green-500/10 hover:shadow-[0_0_15px_rgba(16,185,129,0.3)]'
+                          : 'text-zinc-300 hover:text-white border-zinc-800 hover:border-zinc-600 hover:bg-zinc-900'}`}
+                    >
+                      <span className="text-lg group-hover:scale-110 transition-transform">💾</span>
+                      Save Universe
+                    </button>
+                  )}
                   <button 
                     onClick={resetSimulation}
                     className={`text-xs uppercase tracking-widest px-5 py-3 transition-all border-2 rounded-lg font-bold flex items-center gap-2 group

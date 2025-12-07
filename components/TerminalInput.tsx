@@ -2,18 +2,20 @@ import React, { useState } from 'react';
 import { UserInput } from '../types';
 
 interface TerminalInputProps {
-  onSubmit: (data: UserInput) => void;
+  onSubmit: (data: UserInput, geminiKey?: string) => void;
   isSimulating: boolean;
   theme: 'cyberpunk' | 'minimalist';
+  requiresApiKey?: boolean;
 }
 
-export const TerminalInput: React.FC<TerminalInputProps> = ({ onSubmit, isSimulating, theme }) => {
+export const TerminalInput: React.FC<TerminalInputProps> = ({ onSubmit, isSimulating, theme, requiresApiKey = false }) => {
   const [form, setForm] = useState<UserInput>({
     age: 25,
     occupation: '',
     regret: '',
     decision: ''
   });
+  const [geminiApiKey, setGeminiApiKey] = useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -25,12 +27,12 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({ onSubmit, isSimula
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(form);
+    onSubmit(form, requiresApiKey ? geminiApiKey : undefined);
   };
 
   const isCyber = theme === 'cyberpunk';
 
-  const isFormValid = form.occupation && form.decision && form.age > 0;
+  const isFormValid = form.occupation && form.decision && form.age > 0 && (!requiresApiKey || geminiApiKey.trim().length > 0);
 
   return (
     <div className="w-full max-w-3xl mx-auto p-1">
@@ -63,6 +65,32 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({ onSubmit, isSimula
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {requiresApiKey && (
+            <div className="space-y-2 group">
+              <label className={`text-sm uppercase tracking-wider flex items-center gap-2
+                ${isCyber ? 'text-yellow-500/70' : 'text-yellow-400 font-semibold text-xs'}`}>
+                <span className={`text-lg ${isCyber ? 'text-yellow-500' : 'text-yellow-500'}`}>🔑</span>
+                Gemini API Key <span className="text-xs opacity-70">(Required for frontend-only mode)</span>
+              </label>
+              <input
+                type="password"
+                name="geminiApiKey"
+                placeholder="Enter your Gemini API key"
+                value={geminiApiKey}
+                onChange={(e) => setGeminiApiKey(e.target.value)}
+                className={`w-full p-4 outline-none transition-all duration-200 text-lg
+                  ${isCyber 
+                    ? 'bg-black border-2 border-yellow-800 focus:border-yellow-400 text-yellow-400 placeholder-yellow-800 group-hover:border-yellow-600' 
+                    : 'bg-zinc-800/50 border-2 border-yellow-700 focus:border-yellow-500 text-white rounded-xl focus:bg-zinc-800 placeholder-zinc-600 group-hover:border-yellow-600'
+                  }`}
+                required
+              />
+              <p className={`text-xs ${isCyber ? 'text-gray-600' : 'text-zinc-600'}`}>
+                Get your free API key from <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" className="underline text-yellow-500 hover:text-yellow-400">Google AI Studio</a>
+              </p>
+            </div>
+          )}
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2 group">
               <label className={`text-sm uppercase tracking-wider flex items-center gap-2
