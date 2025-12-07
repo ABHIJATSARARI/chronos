@@ -31,7 +31,7 @@ npm install
 node server.js
 ```
 
-Backend runs on `http://localhost:5000`
+Backend runs on `http://localhost:5001`
 
 ### 4. Start Frontend
 ```bash
@@ -43,7 +43,7 @@ Frontend runs on `http://localhost:3001`
 ## 🔧 Port Configuration
 
 - **Frontend**: `3001`
-- **Backend**: `5000`
+- **Backend**: `5001`
 - **Demo** (at root): `3000`
 
 ## 🌐 vs Demo Version
