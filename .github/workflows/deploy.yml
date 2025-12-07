@@ -97,7 +97,7 @@ jobs:
               <hr style="border-color: #333; margin: 30px 0;">
               <h2 style="color: #10b981;">For Full Access:</h2>
               <ol style="text-align: left; display: inline-block; margin: 20px 0;">
-                <li>Fork the <a href="https://github.com/YOUR_USERNAME/chronos" target="_blank">GitHub Repository</a></li>
+                <li>Fork the <a href="https://github.com/ABHIJATSARARI/chronos" target="_blank">GitHub Repository</a></li>
                 <li>Add your <code style="color: #fbbf24;">VITE_GEMINI_API_KEY</code> to <code>.env.local</code></li>
                 <li>Run locally: <code style="color: #10b981;">npm install && npm run dev</code></li>
               </ol>
@@ -117,7 +117,7 @@ jobs:
                 const notice = document.createElement("div");\
                 notice.innerHTML = `\
                   <div style="position: fixed; top: 0; left: 0; right: 0; background: linear-gradient(to right, #ef4444, #f59e0b); color: white; padding: 12px; text-align: center; font-family: monospace; font-size: 14px; z-index: 9999; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">\
-                    🔒 <strong>DEMO MODE</strong> - API keys removed for security. <a href="/SECURITY_NOTICE.html" style="color: white; text-decoration: underline; font-weight: bold;">Learn More</a> | <a href="https://github.com/YOUR_USERNAME/chronos" target="_blank" style="color: white; text-decoration: underline; font-weight: bold;">Fork Repo</a>\
+                    🔒 <strong>DEMO MODE</strong> - API keys removed for security. <a href="/SECURITY_NOTICE.html" style="color: white; text-decoration: underline; font-weight: bold;">Learn More</a> | <a href="https://github.com/ABHIJATSARARI/chronos" target="_blank" style="color: white; text-decoration: underline; font-weight: bold;">Fork Repo</a>\
                   </div>\
                 `;\
                 document.body.prepend(notice.firstChild);\

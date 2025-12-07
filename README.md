@@ -7,8 +7,8 @@
 
 **See every life you could have lived. Make decisions with certainty.**
 
-[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Now-blue?style=for-the-badge)](https://YOUR_GITHUB_USERNAME.github.io/chronos)
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github)](https://github.com/YOUR_USERNAME/chronos)
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Now-blue?style=for-the-badge)](https://ABHIJATSARARI.github.io/chronos)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github)](https://github.com/ABHIJATSARARI/chronos)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
 ---
@@ -54,12 +54,12 @@
 > 2. Add your `VITE_GEMINI_API_KEY` in `.env.local`
 > 3. Deploy or run locally
 
-**👉 [Try Live Demo](https://YOUR_GITHUB_USERNAME.github.io/chronos)** *(Limited functionality)*
+**👉 [Try Live Demo](https://ABHIJATSARARI.github.io/chronos)** *(Limited functionality)*
 
 **For Full Experience:**
 ```bash
 # Clone and run locally with your API key
-git clone https://github.com/YOUR_USERNAME/chronos.git
+git clone https://github.com/ABHIJATSARARI/chronos.git
 cd chronos
 echo "VITE_GEMINI_API_KEY=your_key_here" > .env.local
 npm install && npm run dev
@@ -138,7 +138,7 @@ graph LR
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/chronos.git
+git clone https://github.com/ABHIJATSARARI/chronos.git
 cd chronos
 
 # 2. Install dependencies
@@ -251,9 +251,9 @@ MIT License - See [LICENSE](LICENSE) file for details
 ## 📧 Contact
 
 **Developer**: Your Name  
-**GitHub**: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)  
-**Project**: [Chronos Repository](https://github.com/YOUR_USERNAME/chronos)  
-**Live Demo**: [chronos.github.io](https://YOUR_USERNAME.github.io/chronos)
+**GitHub**: [@ABHIJATSARARI](https://github.com/ABHIJATSARARI)  
+**Project**: [Chronos Repository](https://github.com/ABHIJATSARARI/chronos)  
+**Live Demo**: [chronos.github.io](https://ABHIJATSARARI.github.io/chronos)
 
 ---
 
@@ -263,8 +263,8 @@ MIT License - See [LICENSE](LICENSE) file for details
 
 **Made for Raindrop x Vultr AI Hackathon 2024**
 
-[![Star on GitHub](https://img.shields.io/github/stars/YOUR_USERNAME/chronos?style=social)](https://github.com/YOUR_USERNAME/chronos)
-[![Fork on GitHub](https://img.shields.io/github/forks/YOUR_USERNAME/chronos?style=social)](https://github.com/YOUR_USERNAME/chronos/fork)
+[![Star on GitHub](https://img.shields.io/github/stars/ABHIJATSARARI/chronos?style=social)](https://github.com/ABHIJATSARARI/chronos)
+[![Fork on GitHub](https://img.shields.io/github/forks/ABHIJATSARARI/chronos?style=social)](https://github.com/ABHIJATSARARI/chronos/fork)
 
 </div>
 

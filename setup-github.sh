@@ -21,7 +21,7 @@ echo ""
 
 # Update README.md
 if [ -f "README.md" ]; then
-    sed -i.bak "s/YOUR_USERNAME/$USERNAME/g" README.md
+    sed -i.bak "s/ABHIJATSARARI/$USERNAME/g" README.md
     sed -i.bak "s/YOUR_GITHUB_USERNAME/$USERNAME/g" README.md
     rm README.md.bak 2>/dev/null
     echo "✅ Updated README.md"
@@ -31,7 +31,7 @@ fi
 
 # Update GitHub workflow
 if [ -f ".github/workflows/deploy.yml" ]; then
-    sed -i.bak "s/YOUR_USERNAME/$USERNAME/g" .github/workflows/deploy.yml
+    sed -i.bak "s/ABHIJATSARARI/$USERNAME/g" .github/workflows/deploy.yml
     rm .github/workflows/deploy.yml.bak 2>/dev/null
     echo "✅ Updated .github/workflows/deploy.yml"
 else
