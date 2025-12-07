@@ -34,11 +34,7 @@ jobs:
       - name: Build project
         run: npm run build
         env:
-          # Frontend-only mode for GitHub Pages
           VITE_USE_BACKEND: 'false'
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
