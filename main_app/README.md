@@ -31,12 +31,20 @@ npm install
 node server.js
 ```
 
+Backend runs on `http://localhost:5000`
+
 ### 4. Start Frontend
 ```bash
 npm run dev
 ```
 
-Runs on `http://localhost:3001` (port 3001, different from demo)
+Frontend runs on `http://localhost:3001`
+
+## 🔧 Port Configuration
+
+- **Frontend**: `3001`
+- **Backend**: `5000`
+- **Demo** (at root): `3000`
 
 ## 🌐 vs Demo Version
 
