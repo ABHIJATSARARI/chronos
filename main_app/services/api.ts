@@ -7,6 +7,13 @@ const USE_BACKEND = import.meta.env.VITE_USE_BACKEND === 'true';
  * Generate simulation - can use backend API or direct Gemini call
  */
 export const generateSimulationAPI = async (input: UserInput): Promise<SimulationData> => {
+  console.log('🔍 API Configuration:', {
+    USE_BACKEND,
+    BACKEND_URL,
+    VITE_USE_BACKEND: import.meta.env.VITE_USE_BACKEND,
+    VITE_BACKEND_URL: import.meta.env.VITE_BACKEND_URL,
+  });
+
   if (USE_BACKEND) {
     // Use Vultr Backend API
     console.log('🌐 Using Vultr Backend API for simulation...');

@@ -1,8 +1,15 @@
 import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { UserInput, SimulationData } from "../types";
 
+// Check for API key
+const apiKey = process.env.API_KEY || process.env.GEMINI_API_KEY;
+if (!apiKey || apiKey === 'undefined' || apiKey === 'null') {
+  console.error('❌ GEMINI API KEY IS MISSING! Set VITE_GEMINI_API_KEY in .env.local');
+  throw new Error('Gemini API Key not configured. Please set VITE_GEMINI_API_KEY in your .env.local file');
+}
+
 // Initialize the client
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const ai = new GoogleGenAI({ apiKey });
 
 const eventSchema: Schema = {
   type: Type.OBJECT,
