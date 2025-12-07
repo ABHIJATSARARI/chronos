@@ -1,0 +1,145 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create demo environment file
+        run: |
+          echo "VITE_GEMINI_API_KEY=DEMO_MODE_NO_KEY" > .env.local
+          echo "VITE_USE_BACKEND=false" >> .env.local
+
+      - name: Build project
+        run: npm run build
+
+      - name: Create security notice page
+        run: |
+          cat > dist/SECURITY_NOTICE.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Chronos - Security Notice</title>
+            <style>
+              body {
+                background: #0a0a0a;
+                color: #fff;
+                font-family: 'Courier New', monospace;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+                margin: 0;
+                padding: 20px;
+              }
+              .container {
+                max-width: 600px;
+                text-align: center;
+                border: 2px solid #8b5cf6;
+                padding: 40px;
+                border-radius: 10px;
+                background: rgba(0,0,0,0.5);
+              }
+              h1 { color: #8b5cf6; margin-bottom: 20px; }
+              .warning { color: #fbbf24; font-size: 48px; }
+              p { line-height: 1.6; margin: 15px 0; }
+              a {
+                color: #10b981;
+                text-decoration: none;
+                font-weight: bold;
+              }
+              a:hover { text-decoration: underline; }
+              .button {
+                display: inline-block;
+                margin-top: 20px;
+                padding: 15px 30px;
+                background: linear-gradient(to right, #8b5cf6, #10b981);
+                border-radius: 8px;
+                color: white;
+                font-weight: bold;
+                text-transform: uppercase;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <div class="warning">🔒</div>
+              <h1>Security Notice</h1>
+              <p>This is a <strong>LIVE DEMO</strong> deployment of Chronos.</p>
+              <p>⚠️ <strong>API keys have been removed</strong> for security purposes.</p>
+              <p>The demo has <strong>limited functionality</strong> - AI generation will not work without a valid Gemini API key.</p>
+              <hr style="border-color: #333; margin: 30px 0;">
+              <h2 style="color: #10b981;">For Full Access:</h2>
+              <ol style="text-align: left; display: inline-block; margin: 20px 0;">
+                <li>Fork the <a href="https://github.com/YOUR_USERNAME/chronos" target="_blank">GitHub Repository</a></li>
+                <li>Add your <code style="color: #fbbf24;">VITE_GEMINI_API_KEY</code> to <code>.env.local</code></li>
+                <li>Run locally: <code style="color: #10b981;">npm install && npm run dev</code></li>
+              </ol>
+              <a href="/" class="button">Continue to Demo</a>
+            </div>
+          </body>
+          </html>
+          EOF
+
+      - name: Add API key warning to index.html
+        run: |
+          sed -i '/<\/body>/i \
+          <script>\
+            if (!import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_GEMINI_API_KEY === "DEMO_MODE_NO_KEY") {\
+              console.warn("⚠️ DEMO MODE: API key not configured. Fork the repo and add your key for full functionality.");\
+              setTimeout(() => {\
+                const notice = document.createElement("div");\
+                notice.innerHTML = `\
+                  <div style="position: fixed; top: 0; left: 0; right: 0; background: linear-gradient(to right, #ef4444, #f59e0b); color: white; padding: 12px; text-align: center; font-family: monospace; font-size: 14px; z-index: 9999; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">\
+                    🔒 <strong>DEMO MODE</strong> - API keys removed for security. <a href="/SECURITY_NOTICE.html" style="color: white; text-decoration: underline; font-weight: bold;">Learn More</a> | <a href="https://github.com/YOUR_USERNAME/chronos" target="_blank" style="color: white; text-decoration: underline; font-weight: bold;">Fork Repo</a>\
+                  </div>\
+                `;\
+                document.body.prepend(notice.firstChild);\
+              }, 1000);\
+            }\
+          </script>' dist/index.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
