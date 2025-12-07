@@ -250,7 +250,7 @@ MIT License - See [LICENSE](LICENSE) file for details
 
 ## 📧 Contact
 
-**Developer**: Your Name  
+**Developer**: Abhijat Sarari  
 **GitHub**: [@ABHIJATSARARI](https://github.com/ABHIJATSARARI)  
 **Project**: [Chronos Repository](https://github.com/ABHIJATSARARI/chronos)  
 **Live Demo**: [chronos.github.io](https://ABHIJATSARARI.github.io/chronos)
