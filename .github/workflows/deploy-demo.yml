@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'demo/**'
   workflow_dispatch:
 
 permissions:
@@ -27,16 +29,19 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: demo/package-lock.json
 
       - name: Install dependencies
+        working-directory: demo
         run: npm ci
 
       - name: Build demo project
+        working-directory: demo
         run: npm run build
 
       - name: Add demo banner to index.html
         run: |
-          cat > dist/demo-notice.html << 'EOF'
+          cat > demo/dist/demo-notice.html << 'EOF'
           <div style="position: fixed; top: 0; left: 0; right: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px; text-align: center; z-index: 9999; font-family: 'Inter', sans-serif; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
             <strong>🎭 DEMO MODE</strong> • Using mock AI responses for showcase • 
             <a href="https://github.com/ABHIJATSARARI/chronos" style="color: #ffd700; text-decoration: underline; font-weight: bold;">View Full Project</a>
@@ -45,7 +50,7 @@ jobs:
           EOF
           
           # Inject banner after <body> tag
-          sed -i '/<body>/r dist/demo-notice.html' dist/index.html
+          sed -i '/<body>/r demo/dist/demo-notice.html' demo/dist/index.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -53,7 +58,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: demo/dist
 
   deploy:
     environment:
