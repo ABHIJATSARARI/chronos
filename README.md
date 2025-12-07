@@ -15,8 +15,7 @@
 
 ### 🎬 Watch Demo
 
-[https://github.com/user-attachments/assets/your-demo-video-id
-](https://youtu.be/nDYOoXwPEFc)
+[https://github.com/demo-video-id](https://youtu.be/nDYOoXwPEFc)
 *A probabilistic multiverse simulator powered by AI that visualizes divergent life paths in real-time*
 
 </div>
@@ -467,6 +466,3 @@ MIT
 
 ---
 
-**Built with ❤️ for the Raindrop x Vultr Hackathon**
-
-View your app in AI Studio: https://ai.studio/apps/drive/1n0t0oXlt8ZEICnhYIYOOrXwTPXloBBkG
